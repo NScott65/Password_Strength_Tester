@@ -4,7 +4,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String password = "";
         int goodCount = 0;
-        boolean valid = false;
+        boolean valid = true;
         String upper = "";
 
 
@@ -25,7 +25,7 @@ public class Main {
             if(lower.equals("true")){
                 goodCount += 1;
             }else{
-                System.out.println("Your password should include a lowercase letter. ");
+                System.out.println("Your password needs to include a lowercase letter. ");
             }
             upper = uppercaseCheck(scan, password);
             if(upper.equals("true")){
@@ -39,7 +39,28 @@ public class Main {
             }else{
                 System.out.println("Your password needs to atleast one number.");
             }
-
+            String special = specialCharacterCheck(scan, password);
+            if(special.equals("true")){
+                goodCount += 1;
+            }else{
+                System.out.println("Your password needs to atleast one special character[!#$%].");
+            }
+            System.out.println();
+            if(goodCount <= 2){
+                System.out.println("Your password passed " + goodCount + "/5 tests.");
+                System.out.println("Your password strength is weak.");
+            }else if(goodCount == 3){
+                System.out.println("Your password passed " + goodCount + "/5 tests.");
+                System.out.println("Your password strength is medium.");
+            }else if(goodCount == 4 || goodCount == 5){
+                System.out.println("Your password passed " + goodCount + "/5 tests.");
+                System.out.println("Your password strength is strong.");
+            }
+            String yn = Input_Helper.getYNConfirm(scan,"Would you like to check another password? [Y/N]");
+            if(yn.equals("true")){
+                valid = false;
+            }
+            goodCount = 0;
         }while (!valid);
     }
     public static String uppercaseCheck(Scanner in, String pass){
@@ -88,6 +109,25 @@ public class Main {
         for (int i = 0; i < pass.length(); i++) {
             check = pass.substring(i, i + 1);
             if (check.matches("[0123456789]")) {
+                valid = true;
+            }
+        }
+        if(valid){
+            validS = "true";
+        }else{
+            validS = "false";
+        }
+
+        return validS;
+    }
+    public static String specialCharacterCheck(Scanner in, String pass){
+        String check = "";
+        boolean valid = false;
+        String validS = "";
+
+        for (int i = 0; i < pass.length(); i++) {
+            check = pass.substring(i, i + 1);
+            if (check.matches("[!#$%]")) {
                 valid = true;
             }
         }
